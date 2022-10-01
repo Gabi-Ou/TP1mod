@@ -2,3 +2,5 @@ Erreurs trouvées
 
 - Index 91161. Le montant de réclamation est de -7682.59. 
 C'est probablement en signe négatif en trop.
+
+- Il y a 16 montants de réclamation inférieurs à 5$.
