@@ -16,6 +16,52 @@ attach(donnees)
 ##                 ne spécifie pas qu'il s'agit de la valeur 
 ##                 à l'achat ou actuelle.
 
+
+## Commençons avec la première variable, garage.
+
+## First tought : Je ne crois pas que cette variable à un impact
+##
+## On s'intéresse donc ici le montant des réclamations en fonction de la valeur
+## du la source d'énergie.
+
+## Variable exogène : Source d'énergie
+## Variable endogène : Montant des réclamations
+
+
+source_energ[is.na(garage)] <- 0
+source_energ[source_energ == 'diesel'] <- 1
+source_energ[source_energ == 'regular'] <- 2
+source_energ[source_energ == 'electrique'] <- 3
+source_energ <- as.numeric(source_energ)
+
+## Nuage de points
+plot(mont_recl ~ source_energ, main = "Montant des réclamations en fonction de la
+     source d'énergie", xlab = "Source d'énergie", ylab = "Montant des réclamation")
+
+## Histogrammes
+par(mfrow = c(1,2))
+hist(mont_recl, freq = FALSE)
+hist(source_energ, freq = FALSE)  
+
+modele <- lm (mont_recl ~ valeur_veh, data = donnees)
+summary(modele)
+
+## Le modèle serait donc y = 940.66636 - 0.04612x
+
+anova(modele)
+
+## Pour tester si le modèle de régression est significatif, nous utilisons la
+## statistique F. Ici, elle est de 53.6 avec 1 et 10 degré de liberté, alors
+## la p-value est de P[F > 53.6] = 2.745 x 10^-13.
+## Comme la p-value est vraiment plus petite qu 1%, il n'y a pas assez de
+## preuve pour rejeter l'hypothèse nulle. Le modèle linéaire simple est donc
+## significatif.
+##
+## Pour R^2, on a 0.8042%. C'est un très bas niveau de corrélation. Ça signifie
+## que seulement 0.8042% de la variance des montants de réclamation est expliquée
+## par la valeur du véhicule. Comme je semblais le voir au départ, le modèle linéaire
+## ne semble pas fonctionné dans ce cas.
+
 ## Terminons avec la troisième variable, valeur_veh.
 
 ## First tought : À la première lecture de cette variable, je crois
@@ -55,6 +101,11 @@ abline(modele,col = 'blue')
 ## - On dirait que je vois également des lignes droites à certain montants
 ##   de réclamations.
 
+## Histogrammes
+par(mfrow = c(1,2))
+hist(mont_recl, freq = FALSE)
+hist(valeur_veh, freq = FALSE)  ## On dirait que ça veut suivre une normale
+
 modele <- lm (mont_recl ~ valeur_veh, data = donnees)
 summary(modele)
 
@@ -74,4 +125,8 @@ anova(modele)
 ## par la valeur du véhicule. Comme je semblais le voir au départ, le modèle linéaire
 ## ne semble pas fonctionné dans ce cas.
 
-boxcox(mont_recl ~ valeur_veh)
+## Erreur : Montant de réclamation négatif.
+## Idées de traitement : enlever le signe négatif ou enlever l'observation.
+
+## Autres statistiques importantes :
+summary(valeur_veh)
