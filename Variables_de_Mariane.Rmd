@@ -1,0 +1,115 @@
+---
+title: "Variables - Mariane"
+author: "Mariane Tremblay"
+date: "2022-10-04"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Analyse univariée
+```{r}
+library(ggplot2)
+```
+
+```{r}
+setwd("/Users/marianetremblay/Downloads")
+Donnees <- read.csv("MontantReclFr.csv")
+attach(Donnees)
+```
+
+# Variable 1 
+### Âge du permis de conduire du réclamant (en mois)
+
+```{r}
+ggplot(Donnees, aes(x = age_permi, y = mont_recl)) + geom_point()
+```
+
+#### Statistiques
+```{r}
+# Moyenne
+mean(age_permi)
+# Médiane
+median(age_permi)
+# Écart-Type
+sd(age_permi)
+# Maximum
+max(age_permi)
+# Minimum
+min(age_permi)
+```
+
+
+# Variable 2
+### Âge du véhicule accidenté (en années)
+```{r}
+ggplot(Donnees, aes(x = age_veh, y = mont_recl)) + geom_point()
+```
+
+#### Statistiques
+```{r}
+# Moyenne
+mean(age_veh)
+# Médiane
+median(age_veh)
+# Écart-Type
+sd(age_veh)
+# Maximum
+max(age_veh)
+# Minimum
+min(age_veh)
+```
+
+# Variable 3
+### Genre du réclamant
+
+En roulant, on voit qu'il y a une erreur dans le genre. On a "Femme" et "femme".
+Corrigeons le tir...
+```{r}
+# Avant 
+table(genre)
+# Après
+genre_2 <- sub("femme", "Femme", genre)
+table(genre_2)
+```
+Graphique 3
+```{r}
+ggplot(Donnees, aes(x = genre_2, y = mont_recl)) + geom_point()
+```
+
+Puisque le genre est une variable exogène qualitative, on ne peut pas émettre de statistique à proprement dit. On peut toutefois dire...
+```{r}
+# Construction d'un tableau genre_2 et mont_recl
+Tableau <- data.frame(genre_2, mont_recl)
+
+# HOMMES
+Tableau <- data.frame(genre_2, mont_recl)
+H <- Tableau[genre_2 == "Homme", ]
+# Moyenne
+mean(H$mont_recl)
+# Médiance
+median(H$mont_recl)
+# Écart-Type
+sd(H$mont_recl)
+# Maximum
+max(H$mont_recl)
+# Minimum
+min(H$mont_recl)
+
+# FEMME
+Tableau <- data.frame(genre_2, mont_recl)
+FE <- Tableau[genre_2 == "Femme", ]
+# Moyenne
+mean(FE$mont_recl)
+# Médiance
+median(FE$mont_recl)
+# Écart-Type
+sd(FE$mont_recl)
+# Maximum
+max(FE$mont_recl)
+# Minimum
+min(FE$mont_recl)
+```
+
