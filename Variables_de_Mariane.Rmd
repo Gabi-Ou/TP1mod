@@ -22,9 +22,22 @@ attach(Donnees)
 
 # Variable 1 
 ### Âge du permis de conduire du réclamant (en mois)
-
+#### Graphiques
+##### Nuage de points
 ```{r}
 ggplot(Donnees, aes(x = age_permi, y = mont_recl)) + geom_point()
+```
+
+##### Histogramme
+```{r}
+hist(age_permi, freq = FALSE)
+```
+
+#### Modèle
+```{r}
+modele_1 <- lm(age_permi~mont_recl, data = Donnees)
+summary(modele_1)
+anova(modele_1)
 ```
 
 #### Statistiques
@@ -44,8 +57,21 @@ min(age_permi)
 
 # Variable 2
 ### Âge du véhicule accidenté (en années)
+#### Graphiques
+##### Nuage de points
 ```{r}
 ggplot(Donnees, aes(x = age_veh, y = mont_recl)) + geom_point()
+```
+##### Histogramme
+```{r}
+hist(age_permi, freq = FALSE)
+```
+
+#### Modèle
+```{r}
+modele_2 <- lm(age_veh~mont_recl, data = Donnees)
+summary(modele_2)
+anova(modele_2)
 ```
 
 #### Statistiques
@@ -74,11 +100,23 @@ table(genre)
 genre_2 <- sub("femme", "Femme", genre)
 table(genre_2)
 ```
-Graphique 3
+
+#### Graphiques
+##### Nuage de points
 ```{r}
 ggplot(Donnees, aes(x = genre_2, y = mont_recl)) + geom_point()
 ```
+##### Histogramme
+Impossible de faire un histogramme, car variable qualitative.
 
+#### Modèle
+```{r}
+modele_3 <- lm(age_permi~mont_recl, data = Donnees)
+summary(modele_3)
+anova(modele_3)
+```
+
+#### Statistiques
 Puisque le genre est une variable exogène qualitative, on ne peut pas émettre de statistique à proprement dit. On peut toutefois dire...
 ```{r}
 # Construction d'un tableau genre_2 et mont_recl
