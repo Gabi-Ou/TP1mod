@@ -1,6 +1,7 @@
 ## Ce fichier contient l'analyse univariée des données pour les variables:
 ## âge du conducteur (age_conduct), type du véhicule (type_veh) et bonus malus
 ## (bonus_malus).
+library(ggplot2)
 MontantReclFr <- read.csv("MontantReclFr.csv")
 View(MontantReclFr)
 ## La variable endogène dépendante (Y) est :
@@ -17,6 +18,7 @@ median(MontantReclFr$mont_recl)
 ## Extremums
 min(MontantReclFr$mont_recl)
 max(MontantReclFr$mont_recl)
+##
 
 
 ### Données sur l'âge des conducteurs (age_conduct)
@@ -37,7 +39,8 @@ hist(age_conduct)
 ## Nuage de points
 plot(MontantReclFr$mont_recl~MontantReclFr$age_conduct,
      main = "Montant de réclamation en fonction de l'âge du conducteur",
-     xlab = "Âge conducteur", ylab = "Montant réclamation", ylim = c(0, 10000))
+     xlab = "Âge conducteur", ylab = "Montant réclamation", ylim = c(0, 10000),
+     cex = 0.2)
 
 
 ### Données sur le type de véhicule (type_veh)
@@ -45,6 +48,8 @@ plot(MontantReclFr$mont_recl~MontantReclFr$age_conduct,
 unique(MontantReclFr$type_veh)
 ## Nombre de véhicules de chaque type.
 table(MontantReclFr$type_veh)
+boxplot(mont_recl~type_veh)
+ggplot(data = mont_recl, aes(y = log(mont_recl), x = type_veh))
 
 
 ### Données sur bonus malus (bonus_malus)
@@ -58,3 +63,6 @@ mean(MontantReclFr$bonus_malus)
 sd(MontantReclFr$bonus_malus)
 ## Médiane
 median(MontantReclFr$bonus_malus)
+
+boxplot(mont_recl~bonus_malus)
+ggplot(data = mont_recl, aes(y = log(mont_recl), x = bonus_malus))
