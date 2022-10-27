@@ -3,4 +3,9 @@ Erreurs trouvées
 - Index 91161. Le montant de réclamation est de -7682.59. 
 C'est probablement en signe négatif en trop.
 
+
 - Il y a 16 montants de réclamation inférieurs à 5$.
+
+- Genre : femme vs Femme
+J'ai corrigé le tout dans mon fichier Variables_de_Mariane
+>>>>>>> 775a860bbb5a15d66520c7c42f347640bf168c29

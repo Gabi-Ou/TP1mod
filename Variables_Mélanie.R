@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ## Travail Pratique en Modèles linéaires
 
 x <- read.csv('MontantReclFr.csv')
@@ -68,3 +69,4 @@ summary(mont_recl[usage_veh=="voyagement professionel"])
 ggplot(x,aes(x = log_mont_recl,fill=usage_veh)) + geom_density(alpha=0.5)
 
 sort(mont_recl)
+
