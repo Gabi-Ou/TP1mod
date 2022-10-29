@@ -49,7 +49,8 @@ unique(MontantReclFr$type_veh)
 ## Nombre de véhicules de chaque type.
 table(MontantReclFr$type_veh)
 boxplot(mont_recl~type_veh)
-ggplot(data = mont_recl, aes(y = log(mont_recl), x = type_veh))
+library(ggplot2)
+ggplot(data = MontantReclFr, aes(y = mont_recl, x = type_veh)) + geom_point()
 
 
 ### Données sur bonus malus (bonus_malus)
@@ -65,4 +66,4 @@ sd(MontantReclFr$bonus_malus)
 median(MontantReclFr$bonus_malus)
 
 boxplot(mont_recl~bonus_malus)
-ggplot(data = mont_recl, aes(y = log(mont_recl), x = bonus_malus))
+ggplot(data = MontantReclFr, aes(y = mont_recl, x = bonus_malus)) + geom_point()
