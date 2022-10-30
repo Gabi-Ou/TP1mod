@@ -14,19 +14,21 @@ MontantReclFr <- read.csv("MontantReclFr.csv")
 attach(MontantReclFr)
 ```
 
-##### Correction des erreurs dans les montants de réclamation 
+##### Correction des erreurs dans les montants de réclamation (voir Annexe A)
 ```{r}
 MontantReclFr$mont_recl[MontantReclFr$mont_recl==-7682.59]<-7682.59
 ```
 
 # Variable 1 
 ### Âge du permis de conduire du réclamant (en mois)
+##### L'âge du permis de conduire du réclamant est l'une des variables considérées dans le cadre du présent travail. Elle est particulièrement intéressante puisqu'elle permet de mettre en relation l'expérience d'un conducteur et la sévérité des sinistres, qui risquent d'être fortement corrélés.
+
 #### Graphiques
 ##### Nuage de points
 ```{r}
 library(ggplot2)
 p <- ggplot(MontantReclFr, aes(x = age_permi/12, y = log(mont_recl))) + geom_point()
-p + labs(title = "Nuage de points de l'âge du permis en fonction des montants de réclamations", x = "Âge du permis de conduire du réclamant (en années)", y = "Montants de réclamations") + theme(plot.title = element_text(color = "dark blue", size = 12, hjust = 0.5, face = "bold"))
+p + labs(title = "Nuage de points de l'âge du permis en fonction des montants de réclamations", x = "Âge du permis de conduire du réclamant (en années)", y = "Montants de réclamations") + theme(plot.title = element_text(color = "dark blue", size = 11.5, hjust = 0.5, face = "bold"))
 ```
 
 ##### Histogramme
@@ -69,3 +71,43 @@ m <- c(mean(age_permi), sd(age_permi), max(age_permi), min(age_permi), median(ag
 an <- c(mean(age_permi)/12, sd(age_permi)/12, max(age_permi)/12, min(age_permi)/12, median(age_permi)/12)
 data.frame(Statistiques = c("Moyenne", "Écart-type", "Maximum", "Minimum", "Médiane"), Année = an, Mois = m)
 ```
+
+
+# Variable 2
+### Âge du véhicule du réclamant (en années)
+#### Graphiques
+##### Nuage de points ggplot mont_recl~age_veh
+##### Histogramme
+#### Tableaux
+##### Tableau de fréquence
+##### Statistiques
+
+
+# Variable 3 
+### Genre du réclamant
+#### Analyse qualitative (expliquer pourquoi il s'agit d'une variable intéressante une fois transformée et le démontrer)
+
+
+# Variable 4
+### Statut matrimonial du réclamant
+#### Analyse qualitative (expliquer pourquoi il d'une variable inintéressante et le démontrer)
+
+
+# Variable 5
+### Catégorie socioculturelle
+#### Analyse qualitative (expliquer pourquoi il d'une variable +ou- intéressante et le démontrer)
+
+
+# Variable 6
+### Usage du véhicule
+#### Analyse qualitative (expliquer pourquoi il d'une variable inintéressante et le démontrer, entre autres manque de précision au niveau des catégories)
+
+
+# Variable 7
+### Âge du conducteur (en années)
+#### Graphiques
+##### Nuage de points ggplot mont_recl~age_conduct
+##### Histogramme
+#### Tableaux
+##### Tableau de fréquence
+##### Statistiques
