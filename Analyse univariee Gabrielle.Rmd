@@ -1,0 +1,71 @@
+---
+title: "Analyse univariée"
+author: "Gabrielle Ouellet"
+date: "2022-10-30"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+MontantReclFr <- read.csv("MontantReclFr.csv")
+attach(MontantReclFr)
+```
+
+##### Correction des erreurs dans les montants de réclamation 
+```{r}
+MontantReclFr$mont_recl[MontantReclFr$mont_recl==-7682.59]<-7682.59
+```
+
+# Variable 1 
+### Âge du permis de conduire du réclamant (en mois)
+#### Graphiques
+##### Nuage de points
+```{r}
+library(ggplot2)
+p <- ggplot(MontantReclFr, aes(x = age_permi/12, y = log(mont_recl))) + geom_point()
+p + labs(title = "Nuage de points de l'âge du permis en fonction des montants de réclamations", x = "Âge du permis de conduire du réclamant (en années)", y = "Montants de réclamations") + theme(plot.title = element_text(color = "dark blue", size = 12, hjust = 0.5, face = "bold"))
+```
+
+##### Histogramme
+```{r}
+ggplot(MontantReclFr, aes(x = age_permi/12)) + 
+geom_histogram(col = "darkorchid1", #couleur du contour
+                 fill = "lightblue", # Couleur de l'intérieur
+                 alpha = 0.8, # Transparence de l'intérieur
+                 bins = 20) + # quantité de bandes
+  
+  ## Pour avoir un thème plutôt joli
+  theme(plot.title = element_text(size = 12, hjust = 0.5, color = "dark blue", face = "bold")) + 
+  
+  ## titres des axes
+  labs(x = "Âge du permis de conduire des réclamants (en années)",
+       y = "Fréquence",
+       title = "Histogramme de l'âge du permis de conduire des réclamants")
+```
+
+
+##### Tableau de fréquence
+```{r}
+# table(age_permi > 0 & age_permi <= 120)  # âge permis entre 0 et 10 ans
+# table(age_permi > 120 & age_permi <=300) # entre 10 et 25 ans
+# table(age_permi > 300 & age_permi <=480) # entre 25 et 40 ans
+# table(age_permi > 480 & age_permi <=660) # entre 40 et 55 ans
+# table(age_permi > 660 & age_permi <=840) # entre 55 et 70 ans
+# table(age_permi > 840 & age_permi <=960) # entre 70 et 80 ans
+
+a <- c(1184, 2610, 1869, 826, 117, 5)
+b <- c("0 à 10", "10 à 25", "25 à 40", "40 à 55", "55 à 70", "70 à 80")
+
+data.frame(Âge = b, Nombre = a)
+
+```
+
+#### Statistiques
+```{r}
+m <- c(mean(age_permi), sd(age_permi), max(age_permi), min(age_permi), median(age_permi))
+an <- c(mean(age_permi)/12, sd(age_permi)/12, max(age_permi)/12, min(age_permi)/12, median(age_permi)/12)
+data.frame(Statistiques = c("Moyenne", "Écart-type", "Maximum", "Minimum", "Médiane"), Année = an, Mois = m)
+```
