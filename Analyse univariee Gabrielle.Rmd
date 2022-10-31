@@ -79,10 +79,13 @@ La plupart des sinistres sont subis entre 5 et 40 ans en âge du permis du récl
 # Variable 2
 ### Âge du véhicule du réclamant (en années)
 
-##### Correction de données entrées en mois plutôt qu'en années (voir Annexe A)
+##### Correction de données aberrantes (voir Annexe A)
 ```{r}
-MontantReclFr$age_veh[MontantReclFr$age_veh==160] <- 160/12
-MontantReclFr$age_veh[MontantReclFr$age_veh==159] <- 159/12
+MontantReclFr$age_veh[MontantReclFr$age_veh > 50]           # Trois Données: 160, 160, 159.
+MontantReclFr[MontantReclFr$age_veh > 20, ]                 # Lignes complètes de ces données.
+MontantReclFr[MontantReclFr$age_veh > 20, ]$age_veh <- NA   # On converti en NA.
+is.na(MontantReclFr[MontantReclFr$age_veh > 20, ]$age_veh)  # On vérifie que les données sont bien des NA.
+MontantReclFr[MontantReclFr$age_veh > 20, ]                 # On revalide le tout sur la ligne.
 ```
 
 L'âge du véhicule du réclamant peut nous fournir plusieurs informations. Un véhicule plus vieux aura plus de chances de subir des bris nécessitant réclamation, par contre un véhicule plus récent pourrait occasionner des réclamations plus importantes, puisqu'en général, un véhicule plus récent possède une plus grande valeur.
@@ -106,11 +109,9 @@ d <- c(length(which(age_veh > 0 & age_veh <= 1)),
        length(which(age_veh > 8 & age_veh <= 9)),
        length(which(age_veh > 9 & age_veh <= 10)),
        length(which(age_veh > 10 & age_veh <= 11)),
-       length(which(age_veh > 11 & age_veh <= 12)),
-       length(which(age_veh > 12 & age_veh <= 13)),
-       length(which(age_veh > 13 & age_veh <= 14)))
+       length(which(age_veh > 11 & age_veh <= 12)))
 
-e <- c("0 à 1", "1 à 2", "2 à 3", "3 à 4", "4 à 5", "5 à 6", "6 à 7", "7 à 8", "8 à 9", "9 à 10", "10 à 11", "11 à 12", "12 à 13", "13 à 14")
+e <- c("0 à 1", "1 à 2", "2 à 3", "3 à 4", "4 à 5", "5 à 6", "6 à 7", "7 à 8", "8 à 9", "9 à 10", "10 à 11", "11 à 12")
 
 data.frame(Âge = e, Nombre = d)
 
@@ -147,6 +148,12 @@ geom_histogram(col = "darkorchid1", #couleur du contour
 
 # Variable 3 
 ### Genre du réclamant
+### Corrections
+table(genre)
+genre_2 <- sub("femme", "Femme", genre)
+genre <- genre_2
+table(genre)
+
 #### Analyse qualitative (expliquer pourquoi il s'agit d'une variable intéressante une fois transformée et le démontrer)
 
 
