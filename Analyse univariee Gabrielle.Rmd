@@ -20,16 +20,42 @@ MontantReclFr$mont_recl[MontantReclFr$mont_recl==-7682.59]<-7682.59
 ```
 
 # Variable 1 
-### Âge du permis de conduire du réclamant (en mois)
-##### L'âge du permis de conduire du réclamant est l'une des variables considérées dans le cadre du présent travail. Elle est particulièrement intéressante puisqu'elle permet de mettre en relation l'expérience d'un conducteur et la sévérité des sinistres, qui risquent d'être fortement corrélés.
+### Âge du permis de conduire du réclamant
+L'âge du permis de conduire du réclamant est l'une des variables considérées dans le cadre du présent travail. Elle est intéressante puisqu'elle permet de mettre en relation l'expérience d'un conducteur et la sévérité de ses sinistres.
+
+#### Statistiques
+```{r}
+m <- c(mean(age_permi), sd(age_permi), max(age_permi), min(age_permi), median(age_permi))
+an <- c(mean(age_permi)/12, sd(age_permi)/12, max(age_permi)/12, min(age_permi)/12, median(age_permi)/12)
+data.frame(Statistiques = c("Moyenne", "Écart-type", "Maximum", "Minimum", "Médiane"), Année = an, Mois = m)
+```
+
+On observe ici l'étendue des données, le minimum étant de 0, et le maximum, d'environ 76 années.
+
+
+##### Tableau de fréquence
+```{r}
+a <- c(length(which(age_permi > 0 & age_permi <= 60)), length(which(age_permi > 60 & age_permi <= 120)), length(which(age_permi > 120 & age_permi <= 180)), length(which(age_permi > 180 & age_permi <= 240)), length(which(age_permi > 240 & age_permi <= 300)), length(which(age_permi > 300 & age_permi <= 360)), length(which(age_permi > 360 & age_permi <= 420)), length(which(age_permi > 420 & age_permi <= 480)), length(which(age_permi > 480 & age_permi <= 540)), length(which(age_permi > 540 & age_permi <= 600)), length(which(age_permi > 600 & age_permi <= 660)), length(which(age_permi > 660 & age_permi <= 720)), length(which(age_permi > 720 & age_permi <= 780)), length(which(age_permi > 780 & age_permi <= 840)), length(which(age_permi > 840 & age_permi <= 900)), length(which(age_permi > 900 & age_permi <= 960)))
+
+b <- c("0 à 5", "5 à 10", "10 à 15", "15 à 20", "20 à 25", "25 à 30", "30 à 35", "35 à 40", "40 à 45", "45 à 50", "50 à 55", "55 à 60", "60 à 65", "65 à 70", "70 à 75", "75 à 80")
+
+data.frame(Âge = b, Nombre = a)
+
+```
+
+On a inscrit dans un tableau de fréquence le nombre de permis dont l'âge se situe dans certains intervalles, en années, permettant de mieux visualiser les donnnées.
+
 
 #### Graphiques
 ##### Nuage de points
 ```{r}
 library(ggplot2)
-p <- ggplot(MontantReclFr, aes(x = age_permi/12, y = log(mont_recl))) + geom_point()
+p <- ggplot(MontantReclFr, aes(x = age_permi/12, y = mont_recl)) + geom_point()
 p + labs(title = "Nuage de points de l'âge du permis en fonction des montants de réclamations", x = "Âge du permis de conduire du réclamant (en années)", y = "Montants de réclamations") + theme(plot.title = element_text(color = "dark blue", size = 11.5, hjust = 0.5, face = "bold"))
 ```
+
+On remarque que le nuage de points est plus dense vers la gauche, traduisant le fait qu'un réclamant possédant un permis plus récent a plus de risque de subir un sinistre.
+
 
 ##### Histogramme
 ```{r}
@@ -40,7 +66,7 @@ geom_histogram(col = "darkorchid1", #couleur du contour
                  bins = 20) + # quantité de bandes
   
   ## Pour avoir un thème plutôt joli
-  theme(plot.title = element_text(size = 12, hjust = 0.5, color = "dark blue", face = "bold")) + 
+  theme(plot.title = element_text(size = 11, hjust = 0.5, color = "dark blue", face = "bold")) + 
   
   ## titres des axes
   labs(x = "Âge du permis de conduire des réclamants (en années)",
@@ -48,40 +74,76 @@ geom_histogram(col = "darkorchid1", #couleur du contour
        title = "Histogramme de l'âge du permis de conduire des réclamants")
 ```
 
-
-##### Tableau de fréquence
-```{r}
-# table(age_permi > 0 & age_permi <= 120)  # âge permis entre 0 et 10 ans
-# table(age_permi > 120 & age_permi <=300) # entre 10 et 25 ans
-# table(age_permi > 300 & age_permi <=480) # entre 25 et 40 ans
-# table(age_permi > 480 & age_permi <=660) # entre 40 et 55 ans
-# table(age_permi > 660 & age_permi <=840) # entre 55 et 70 ans
-# table(age_permi > 840 & age_permi <=960) # entre 70 et 80 ans
-
-a <- c(1184, 2610, 1869, 826, 117, 5)
-b <- c("0 à 10", "10 à 25", "25 à 40", "40 à 55", "55 à 70", "70 à 80")
-
-data.frame(Âge = b, Nombre = a)
-
-```
-
-#### Statistiques
-```{r}
-m <- c(mean(age_permi), sd(age_permi), max(age_permi), min(age_permi), median(age_permi))
-an <- c(mean(age_permi)/12, sd(age_permi)/12, max(age_permi)/12, min(age_permi)/12, median(age_permi)/12)
-data.frame(Statistiques = c("Moyenne", "Écart-type", "Maximum", "Minimum", "Médiane"), Année = an, Mois = m)
-```
-
+La plupart des sinistres sont subis entre 5 et 40 ans en âge du permis du réclamant, tout comme l'indiquait le tableau de fréquence.
 
 # Variable 2
 ### Âge du véhicule du réclamant (en années)
-#### Graphiques
-##### Nuage de points ggplot mont_recl~age_veh
-##### Histogramme
-#### Tableaux
-##### Tableau de fréquence
-##### Statistiques
 
+##### Correction de données entrées en mois plutôt qu'en années (voir Annexe A)
+```{r}
+MontantReclFr$age_veh[MontantReclFr$age_veh==160] <- 160/12
+MontantReclFr$age_veh[MontantReclFr$age_veh==159] <- 159/12
+```
+
+L'âge du véhicule du réclamant peut nous fournir plusieurs informations. Un véhicule plus vieux aura plus de chances de subir des bris nécessitant réclamation, par contre un véhicule plus récent pourrait occasionner des réclamations plus importantes, puisqu'en général, un véhicule plus récent possède une plus grande valeur.
+
+#### Statistiques
+```{r}
+an <- c(mean(age_veh), sd(age_veh), max(age_veh), min(age_veh), median(age_veh))
+data.frame(Statistiques = c("Moyenne", "Écart-type", "Maximum", "Minimum", "Médiane"), Année = an)
+```
+
+##### Tableau de fréquence
+```{r}
+d <- c(length(which(age_veh > 0 & age_veh <= 1)),
+       length(which(age_veh > 1 & age_veh <= 2)),
+       length(which(age_veh > 2 & age_veh <= 3)),
+       length(which(age_veh > 3 & age_veh <= 4)),
+       length(which(age_veh > 4 & age_veh <= 5)),
+       length(which(age_veh > 5 & age_veh <= 6)),
+       length(which(age_veh > 6 & age_veh <= 7)),
+       length(which(age_veh > 7 & age_veh <= 8)),
+       length(which(age_veh > 8 & age_veh <= 9)),
+       length(which(age_veh > 9 & age_veh <= 10)),
+       length(which(age_veh > 10 & age_veh <= 11)),
+       length(which(age_veh > 11 & age_veh <= 12)),
+       length(which(age_veh > 12 & age_veh <= 13)),
+       length(which(age_veh > 13 & age_veh <= 14)))
+
+e <- c("0 à 1", "1 à 2", "2 à 3", "3 à 4", "4 à 5", "5 à 6", "6 à 7", "7 à 8", "8 à 9", "9 à 10", "10 à 11", "11 à 12", "12 à 13", "13 à 14")
+
+data.frame(Âge = e, Nombre = d)
+
+```
+
+
+#### Graphiques
+##### Nuage de points
+```{r}
+library(ggplot2)
+p <- ggplot(MontantReclFr, aes(x = age_veh, y = mont_recl)) + geom_point()
+p + labs(title = "Nuage de l'âge du véhicule en fonction des montants de réclamations", x = "Âge du véhicule du réclamant (en années)", y = "Montants de réclamations") + theme(plot.title = element_text(color = "dark blue", size = 8.5, hjust = 0.5, face = "bold"))
+```
+
+On constate que les données sont beaucoup moins réparties que pour l'âge des conducteurs. En effet, on retrouve moins de catégories, les âges des véhicules se situant entre 0 et 14 ans. On n'observe pas de tendance particulière grâce à ce nuage de points.
+
+
+##### Histogramme
+```{r}
+ggplot(MontantReclFr, aes(x = age_veh)) + 
+geom_histogram(col = "darkorchid1", #couleur du contour
+                 fill = "lightblue", # Couleur de l'intérieur
+                 alpha = 0.8, # Transparence de l'intérieur
+                 bins = 20) + # quantité de bandes
+  
+  ## Pour avoir un thème plutôt joli
+  theme(plot.title = element_text(size = 11, hjust = 0.5, color = "dark blue", face = "bold")) + 
+  
+  ## titres des axes
+  labs(x = "Âge des véhicules des réclamants (en années)",
+       y = "Fréquence",
+       title = "Histogramme de l'âge des véhicules des réclamants")
+```
 
 # Variable 3 
 ### Genre du réclamant
