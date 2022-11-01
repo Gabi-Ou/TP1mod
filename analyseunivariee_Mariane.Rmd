@@ -1,0 +1,178 @@
+---
+title: "Analyse univariée"
+author: "Mariane Tremblay"
+date: "2022-11-01"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Analyse univariée des 6 dernières variables
+
+```{r}
+setwd("/Users/marianetremblay/Downloads")
+MontantReclFr <- read.csv("MontantReclFr.csv")
+attach(MontantReclFr)
+
+library(ggplot2)
+library(leaps)
+
+```
+
+
+### Variable 7 : Âge du conducteur (en années)
+L'âge du conducteur est une donnée pertinente pour ce travail compte tenu du fait que l'âge de l'individu peut avoir un impact direct sur la sévérité et la fréquence des sinistres.
+
+#### Graphique
+Avant de produire le graphique, apportons la correction nécessaire au montant de réclamation négatif. 
+```{r}
+mont_recl[mont_recl == -7682.59] <- 7682.59  
+```
+
+Nous avons convenu qu'utiliser le logarithme des montants de réclamations semblent être plus pertinents pour se travail puisque les montants élevés présentent des graphiques plus ou moins intéressants. Corrigeons le tir en créant une nouvelle variable.
+```{r}
+log_mont_recl <- log(mont_recl)
+```
+
+```{r, echo = FALSE}
+ggplot(MontantReclFr, aes(x = age_conduct, y = log_mont_recl)) + geom_point() + labs(x = "Âge du conducteur (en années)",
+                                                                                     y = "Logarithme du montant des réclamations",
+                                                                                     title = "Logarithme du montant des réclamations en fonction de l'âge du conducteur")
+```
+
+### Statistiques
+```{r}
+#Moyenne
+mean(age_conduct)
+#Médiane
+#Écart-Type
+#Minimum
+#Maximum
+```
+
+### Variable 8 : Type du véhicule
+Le type du véhicule peut avoir une influence sur la sévérité d'un sinistre. Il faudra toutefois analyser la variable pour s'assurer qu'il n'y ait pas de multicolinéarité avec d'autres.
+
+#### Graphique
+Puisque cette donnée est qualitative, un tableau de fréquences ainsi qu'un diagramme à mouches sont davantage pertinents.
+
+```{r, echo = FALSE}
+table(type_veh)
+```
+
+```{r, echo = FALSE}
+boxplot(log_mont_recl ~ type_veh, main = "Logarithme du montant des réclamations en fonction du type de véhicule", 
+        xlab = "Type du véhicule", ylab = "Logarithme du montant des réclamations")
+```
+
+
+### Variable 9 : Bonus malus
+Ce score semble être une variable extrêment pertinente puisqu'il est directement lié à l'historique de sinistres du réclamant.
+
+En observant les données, on constate qu'il y a quelques coquilles. Corrigeons-les. Pour plus amples détails, se référer à l'annexe A de ce présent travail. 
+```{r}
+MontantReclFr[bonus_malus < 50 | bonus_malus >= 350, ]$bonus_malus <- NA 
+```
+
+#### Graphique
+
+```{r, echo = FALSE}
+ggplot(MontantReclFr, aes(x = bonus_malus, y = log_mont_recl)) + geom_point() + labs(x = "Bonus malus",
+                                                                                     y = "Logarithme du montant des réclamations",
+                                                                                     title = "Logarithme du montant des réclamations en fonction du Bonus malus")
+```
+
+#### Statistiques
+Moyenne
+```{r, echo = FALSE}
+mean(bonus_malus)
+```
+
+Médiane
+```{r, echo = FALSE}
+median(bonus_malus)
+```
+
+Écart-type
+```{r, echo = FALSE}
+sd(bonus_malus)
+```
+
+Minimum
+```{r, echo = FALSE}
+min(bonus_malus)
+```
+
+Maximum
+```{r, echo = FALSE}
+max(bonus_malus)
+```
+
+
+### Variable 10 : Type de garage
+Puisque ce ne sont pas toutes les réclamations qui incluent cette information, nous convenons qu'elle semble moins pertinente pour le travail. Construisons toutefois un tableau de fréquence ainsi qu'un diagramme à mouches à titre d'information supplémentaire. 
+
+```{r}
+table(garage)
+```
+
+```{r, echo = FALSE}
+boxplot(log_mont_recl ~ garage, main = "Logarithme du montant des réclamations en fonction du type de garage", 
+        xlab = "Type de garage", ylab = "Logarithme du montant des réclamations")
+```
+
+
+### Variable 11 : Source d'énergie
+Cette variable peut présenter une multicolinéarité avec d'autres variables. Il faudra l'analyser plus en profondeur lors du choix du modèle. Puisque c'est une variable qualitative, construisons un tableau de fréquences ainsi qu'un diagramme à mouches.
+
+```{r}
+table(source_energ)
+```
+
+```{r, echo = FALSE}
+boxplot(log_mont_recl ~ source_energ, main = "Logarithme du montant des réclamations en fonction de la source d'énergie", 
+        xlab = "Source d'énergie", ylab = "Logarithme du montant des réclamations")
+```
+
+### Variable 12 : Valeur du véhicule
+
+Cette valeur pourrait être très intéressante pour ce travail puisque la valeur du véhicule peu avoir un impact sur le montant de la réclamation.
+
+#### Graphique
+
+```{r, echo = FALSE}
+ggplot(MontantReclFr, aes(x = valeur_veh, y = log_mont_recl)) + geom_point() + labs(x = "Valeur du véhicule",
+                                                                                     y = "Logarithme du montant des réclamations",
+                                                                                     title = "Logarithme du montant des réclamations en fonction de la valeur du véhicule")
+```
+
+#### Statistique
+
+Moyenne
+```{r, echo = FALSE}
+mean(valeur_veh)
+```
+
+Médiane
+```{r, echo = FALSE}
+median(valeur_veh)
+```
+
+Écart-type
+```{r, echo = FALSE}
+sd(valeur_veh)
+```
+
+Minimum
+```{r, echo = FALSE}
+min(valeur_veh)
+```
+
+Maximum
+```{r, echo = FALSE}
+max(valeur_veh)
+```
+
+
