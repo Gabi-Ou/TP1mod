@@ -89,7 +89,7 @@ L'âge du véhicule du réclamant peut nous fournir plusieurs informations. Un v
 
 #### Statistiques
 ```{r, echo = FALSE}
-an <- c(mean(x$age_veh), sd(x$age_veh), max(x$age_veh), min(x$age_veh), median(x$age_veh))
+an <- c(mean(age_veh), sd(age_veh), max(age_veh), min(age_veh), median(age_veh))
 data.frame(Statistiques = c("Moyenne", "Écart-type", "Maximum", "Minimum", "Médiane"), Année = an)
 ```
 
