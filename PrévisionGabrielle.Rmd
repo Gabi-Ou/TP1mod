@@ -9,15 +9,19 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Corrections:
+### Corrections (Annexe A pour plus de précisions)
 ```{r}
 Original <- read.csv('MontantReclFr.csv')
 x <- read.csv('MontantReclFr.csv')
+#x <- x[-c(3760, 3888, 4517, 5561, 6439)] # retrait des lignes contenant des valeurs NA pour age_conduct
 attach(x)
 
 mont_recl[mont_recl == -7682.59] <- 7682.59
 x[age_veh > 20, ]$age_veh <- NA
+which(is.na(x$age_veh))
+#x <- x[-c(3363, 4399, 6103)] # retrait des lignes contenant des NA pour age_veh
 x[bonus_malus < 50 | bonus_malus >= 350, ]$bonus_malus <- NA
+# x <- x[-c(1435, 2591)] # retrait des lignes bonus_malus contenant des NA
 genre_2 <- sub("femme", "Femme", genre)
 genre <- factor(genre_2)
 stat_matri <- factor(stat_matri)
@@ -25,6 +29,7 @@ categ_socio <- factor(categ_socio)
 usage_veh <- factor(usage_veh)
 type_veh <- factor(type_veh)
 garage <- factor(garage)
+garage <- na.omit(garage)
 source_energ <- factor(source_energ)
 ```
 Le jeu de données a la structure suivante:
@@ -38,58 +43,23 @@ Contenu des données:
 summary(x)
 ```
 
-##### Nuages de points de la variable réponse en fonction de chacune des variables explicatives continues:
+Nous utiliserons le logarithme des montants de réclamations. En effet, puisque nous observons des données de l'ordre de millier(s) de dollars, il est plus judicieux de travailler avec le logarithme notamment au niveau des graphiques.
+```{r}
+log_mont_recl <- log(mont_recl)
+```
+
+##### Nuages de points de la variable réponse en fonction de chacune des variables explicatives:
 ```{r paires}
-pairs(mont_recl~age_permi + age_veh + genre + categ_socio + usage_veh + age_conduct + type_veh + bonus_malus + garage + source_energ + I(log(valeur_veh)))
+pairs(mont_recl ~ age_permi + age_veh + genre + categ_socio + usage_veh + age_conduct + type_veh + bonus_malus + source_energ + valeur_veh)
 ```
 
 On observe déjà que certaines variables sont redondantes, par exemple age_permi et age_conduct, on ne pourra donc pas garder les deux (multicolinéarité).
 
-##### Ajuster un modèle de régression linéaire multiple pour la variable mont_recl en fonction de toutes les variables explicatives
+##### Ajuster un modèle de régression linéaire multiple pour la variable montants de réclamations en fonction de toutes les variables explicatives.
 ```{r}
-mod.complet <- lm(mont_recl~age_permi + age_veh + genre + categ_socio + usage_veh + age_conduct + type_veh + bonus_malus + garage + source_energ + I(log(valeur_veh)))
+mod.complet <- lm(mont_recl~age_permi + age_veh + genre + usage_veh + categ_socio + age_conduct + type_veh + bonus_malus + source_energ + valeur_veh)
 summary(mod.complet)
 ```
-
-##### On peut extraire bêta 1 et bêta 2, par exemple (associés à age_permi et à age_veh) ainsi:
-Cela signifie que lorsqu’un permis a une année de plus, sans changement aux autres variables explicatives, la moyenne de ses réclamations mont_recl diminue de 3.87 dollars, et lorsqu'un véhicule a une année de plus, on augmente son montant de réclamation de 39.33 dollars. On peut faire ceci avec toutes les autres variables, mais nous nous limitons ici à deux exemples.
-```{r}
-(coef_age_permi <- mod.complet$coefficients[1 + 1])
-(coef_age_veh <- mod.complet$coefficients[2 + 1])
-```
-
-##### Intervalle de confiance à 95% pour bêta 1 (age_permi) et bêta 2 (age_veh):
-```{r}
-confint(mod.complet, 
-        parm = 1 + 1,
-        level = 0.95)
-confint(mod.complet, 
-        parm = 2 + 1,
-        level = 0.95)
-```
-Puisqu'il s'agit de très grands intervalles, notre modèle n'est pas très bon.
-
-
-##### Test t pour vérifier si le nombre d'années supplémentaires du véhicule a un effet significatif sur le montant de réclamation. Utiliser un seuil de signification de 1%.
-
-On commence par énoncer les hypothèses : <br/>
-$H_0$ : `age_permi` n'est pas significative $(\beta_{2} = 0)$ <br/>
-$H_1$ : `age_permi` est significative $(\beta_{2} \ne 0)$ <br/>
-
-$H_0$ : `age_veh` n'est pas significative $(\beta_{2} = 0)$ <br/>
-$H_1$ : `age_veh` est significative $(\beta_{2} \ne 0)$ <br/>
-
-On peut ensuite utiliser directement les valeurs données par `R`.
-
-```{r}
-summary(mod.complet)$coefficients[1 + 1,]
-summary(mod.complet)$coefficients[2 + 1,]
-```
-
-Le seuil observé $p=$ 44,23\% pour ce test est plus élevé que notre seuil de signification de 1\%. Nous ne sommes donc pas en mesure de rejeter l'hypothèse nulle stipulant que le dit coefficient est nul pour un seuil de signification de 1\%. Il serait donc approprié d'ajuster un nouveau modèle sans cette variable.
-
-Le seuil observé $p=$ 7,05\% pour ce test est plus élevé que notre seuil de signification de 1\%. Nous ne sommes donc pas en mesure de rejeter l'hypothèse nulle stipulant que le dit coefficient est nul pour un seuil de signification de 1\%. Il serait donc approprié d'ajuster un nouveau modèle sans cette variable.
-
 
 ##### Prévisions
 On s'intéresse à un individu avec les caractéristiques suivantes:
@@ -98,7 +68,7 @@ On s'intéresse à un individu avec les caractéristiques suivantes:
 ```
 
 ##### Prévision ponctuelle
-Quelle est la prévision ponctuelle du solde pour un individu avec ces caractéristiques?
+Quelle est la prévision ponctuelle du montant de réclamation pour un individu avec ces caractéristiques?
 ```{r}
 predict(mod.complet, newdata = x0)
 ```
@@ -115,7 +85,7 @@ predict(mod.complet, newdata = x0,
 Moyenne (I.C. plus petit car variance moyenne plus petite)
 
 
-##### I.C. 99% pour la prévision du solde d’un individu avec ces  caractéristiques
+##### I.C. 99% pour la prévision du solde d’un individu avec ces caractéristiques
 ```{r}
 predict(mod.complet, newdata = x0,
         level = 0.99,
@@ -124,54 +94,126 @@ predict(mod.complet, newdata = x0,
 
 Prévision (intervalle de confiance plus grand car variance individuelle plus grande).
 
+Ce montant n'est clairement pas réaliste, on doit ajuster notre modèle.
+
+
+##### On peut extraire bêta 1 et bêta 2, par exemple (associés à age_permi et à age_veh) ainsi:
+Cela signifie que lorsqu’un permis a une année de plus, sans changement aux autres variables explicatives, la moyenne de ses réclamations mont_recl diminue de 4.21 dollars, et lorsqu'un véhicule a une année de plus, on augmente son montant de réclamation de 40.13 dollars. On peut faire ceci avec toutes les autres variables, mais nous nous limitons ici à deux exemples.
+```{r}
+(coef_age_permi <- mod.complet$coefficients[1 + 1])
+(coef_age_veh <- mod.complet$coefficients[2 + 1])
+```
+
+##### Intervalle de confiance à 95% pour bêta 1 (age_permi) et bêta 2 (age_veh):
+```{r}
+confint(mod.complet, 
+        parm = 1 + 1,
+        level = 0.95)
+confint(mod.complet, 
+        parm = 2 + 1,
+        level = 0.95)
+```
+
+Puisqu'il s'agit de très grands intervalles, notre modèle pourrait être plus précis. Nous allons tenter de l'améliorer.
+
+
+##### Test t pour vérifier si le nombre d'années supplémentaires du permis et du véhicule ont un effet significatif sur le montant de réclamation. Utiliser un seuil de signification de 1%.
+
+On commence par énoncer les hypothèses : <br/>
+$H_0$ : `age_permi` n'est pas significative $(\beta_{2} = 0)$ <br/>
+$H_1$ : `age_permi` est significative $(\beta_{2} \ne 0)$ <br/>
+
+$H_0$ : `age_veh` n'est pas significative $(\beta_{2} = 0)$ <br/>
+$H_1$ : `age_veh` est significative $(\beta_{2} \ne 0)$ <br/>
+
+On peut ensuite utiliser directement les valeurs données par `R`.
+
+```{r}
+summary(mod.complet)$coefficients[1 + 1,]
+summary(mod.complet)$coefficients[2 + 1,]
+```
+
+Le seuil observé $p=$ 40,15\% pour ce test est plus élevé que notre seuil de signification de 1\%. Nous ne sommes donc pas en mesure de rejeter l'hypothèse nulle stipulant que le dit coefficient est nul pour un seuil de signification de 1\%. Il serait donc approprié d'ajuster un nouveau modèle sans la variable age_permi.
+
+Le seuil observé $p=$ 69,67\% pour ce test est plus élevé que notre seuil de signification de 1\%. Nous ne sommes donc pas en mesure de rejeter l'hypothèse nulle stipulant que le dit coefficient est nul pour un seuil de signification de 1\%. Il serait donc approprié d'ajuster un nouveau modèle sans cette variable.
+
 
 ##### Tests de réduction du modèle
-Hypothèses : <br/>
-$H_0$ :  modèle réduit sans age_permi
-$H_1$ : modèle complet
-
-```{r}
-mod0 <- lm(mont_recl~age_veh + genre + categ_socio + usage_veh + age_conduct + type_veh + bonus_malus + garage + source_energ + I(log(valeur_veh)))
-```
-
-On compare les deux modèles grâce à anova.
-```{r}
-anova(mod0, mod.complet)
-```
-La statistique F est 0,5906 et le seuil observé est 44,24%.
-Au niveau de confiance 99%, nous n’avons pas assez de preuves statistiques pour rejeter l’hypothèse nulle, le modèle réduit est une bonne simplification du modèle complet.
-
-On peut aussi simplement utiliser drop1 pour faire des tests F partiels suite au retrait de chacune des variables.
+###### On débute par simplement utiliser drop1 pour faire des tests F partiels suite au retrait de chacune des variables.
 
 ```{r}
 drop1(mod.complet, test = "F")
 ```
-On constate que le seuil observé P(>F) de garage est très élevé, nous n’avons donc pas assez de preuve statistique pour croire que cette variable est significative dans le modèle.
 
-Ainsi, on peut créer un nouveau modèle sans cette variable:
+Selon ce test, la variable usage_veh serait la moins significative, sa valeur Pr(>F) étant de 74,23%. On crée donc un nouveau modèle sans cette variable, puis on recommence la procédure jusqu'à ce qu'on ait uniquement des variables significatives dans notre modèle.
+
 ```{r}
-mod2 <- update(mod.complet, ~. - garage)
+mod0 <- update(mod.complet, ~. - usage_veh)
 ```
 
-Ensuite, on peut refaire la procédure jusqu’à ce que nous ayons des preuves statistiques que toutes nos variables sont significatives selon le test F partiel
+```{r}
+anova(mod0, mod.complet)
+```
+La statistique F est 0,4149.
+Au niveau de confiance 99%, nous n’avons pas assez de preuves statistiques pour rejeter l’hypothèse nulle, le modèle réduit est une bonne simplification du modèle complet.
+
+
+```{r}
+drop1(mod0, test = "F")
+```
+
+Selon le test, age_veh serait la variable la moins significative avec son seuil observé P(>F) de 76.16%, nous n’avons donc pas assez de preuve statistique pour croire qu'elle est significative dans le modèle. On l'enlève et on obtient:
+
+```{r}
+mod1 <- update(mod0, ~. - age_veh)
+```
+
+```{r}
+anova(mod1, mod0)
+```
+La statistique F est 0.0921 et le seuil observé est 76.16%.
+Au niveau de confiance 99%, nous n’avons pas assez de preuves statistiques pour rejeter l’hypothèse nulle, le modèle réduit est une bonne simplification du modèle complet.
+
+On refait le test.
+```{r}
+drop1(mod1, test = "F")
+```
+
+Selon le test, categ_socio serait la variable la moins significative. On constate que son seuil observé P(>F) est de 91.07%, nous n’avons donc pas assez de preuve statistique pour croire qu'elle est significative dans le modèle. On l'enlève et on obtient:
+
+```{r}
+mod2 <- update(mod1, ~. - categ_socio)
+```
+
+
+```{r}
+anova(mod1, mod2)
+```
+La statistique F est 0.6451 et le seuil observé est 91,07%.
+Nous n’avons pas assez de preuves statistiques pour rejeter l’hypothèse nulle, le modèle réduit est une bonne simplification du modèle complet.
+
+On refait le test.
 ```{r}
 drop1(mod2, test = "F")
 ```
 
-On peut donc retirer categ_socio:
-```{r}
-mod3 <- update(mod2, ~. - categ_socio)
-drop1(mod3, test = "F")
-```
+Selon le test, age_permi serait la variable la moins significative. On constate que son seuil observé P(>F) est de 13,53%, nous n’avons donc pas assez de preuve statistique pour croire qu'elle est significative dans le modèle. On l'enlève et on obtient:
 
 ```{r}
-mod4 <- update(mod3, ~. - age_veh)
-drop1(mod4, test = "F")
+mod3 <- update(mod2, ~. - age_permi)
 ```
 
-Maintenant, usage_veh
+
 ```{r}
-mod5 <- update(mod4, ~. - usage_veh)
-drop1(mod5, test = "F")
-anova(mod5)
+anova(mod2, mod3)
 ```
+
+Puisque Fobs > valeur critique Pr(>F) (ou que le seuil observé est proche de 0) on peut rejeter l’hypothèse nulle que le modèle réduit est adéquat. On conserve donc la variable age_permi dans le modèle.
+
+
+Nous avons assez de preuve statistique pour croire qu'elle est significative dans le modèle. On garde donc le modèle 2.
+```{r}
+summary(mod2)
+```
+
+
