@@ -1,0 +1,257 @@
+---
+title: "Analyse univariée"
+author: "Gabrielle Ouellet"
+date: "2022-10-30"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Corrections (voir Annexe A pour précisions)
+```{r}
+Original <- read.csv('MontantReclFr.csv')
+x <- read.csv('MontantReclFr.csv')
+attach(x)
+
+mont_recl[mont_recl == -7682.59] <- 7682.59
+x[age_veh > 20, ]$age_veh <- NA
+x[bonus_malus < 50 | bonus_malus >= 350, ]$bonus_malus <- NA
+genre_2 <- sub("femme", "Femme", genre)
+genre <- factor(genre_2)
+age_conduct <- na.omit(x$age_conduct)
+log_mont_recl <- log(mont_recl)
+```
+
+# Variable 1 
+### Âge du permis de conduire du réclamant
+L'âge du permis de conduire du réclamant est l'une des variables considérées dans le cadre du présent travail. Elle est intéressante puisqu'elle permet de mettre en relation l'expérience d'un conducteur et la sévérité de ses sinistres.
+
+#### Statistiques
+```{r, echo = FALSE}
+m <- c(mean(age_permi), sd(age_permi), max(age_permi), min(age_permi), median(age_permi))
+an <- c(mean(age_permi)/12, sd(age_permi)/12, max(age_permi)/12, min(age_permi)/12, median(age_permi)/12)
+data.frame(Statistiques = c("Moyenne", "Écart-type", "Maximum", "Minimum", "Médiane"), Année = an, Mois = m)
+```
+
+On observe ici l'étendue des données, le minimum étant de 0, et le maximum, d'environ 76 années.
+
+
+##### Tableau de fréquence
+```{r, echo = FALSE}
+a <- c(length(which(age_permi > 0 & age_permi <= 60)), length(which(age_permi > 60 & age_permi <= 120)), length(which(age_permi > 120 & age_permi <= 180)), length(which(age_permi > 180 & age_permi <= 240)), length(which(age_permi > 240 & age_permi <= 300)), length(which(age_permi > 300 & age_permi <= 360)), length(which(age_permi > 360 & age_permi <= 420)), length(which(age_permi > 420 & age_permi <= 480)), length(which(age_permi > 480 & age_permi <= 540)), length(which(age_permi > 540 & age_permi <= 600)), length(which(age_permi > 600 & age_permi <= 660)), length(which(age_permi > 660 & age_permi <= 720)), length(which(age_permi > 720 & age_permi <= 780)), length(which(age_permi > 780 & age_permi <= 840)), length(which(age_permi > 840 & age_permi <= 900)), length(which(age_permi > 900 & age_permi <= 960)))
+
+b <- c("0 à 5", "5 à 10", "10 à 15", "15 à 20", "20 à 25", "25 à 30", "30 à 35", "35 à 40", "40 à 45", "45 à 50", "50 à 55", "55 à 60", "60 à 65", "65 à 70", "70 à 75", "75 à 80")
+
+data.frame(Âge = b, Nombre = a)
+
+```
+
+On a inscrit dans un tableau de fréquence le nombre de permis dont l'âge se situe dans certains intervalles, en années, permettant de mieux visualiser les donnnées.
+
+
+#### Graphiques
+##### Nuage de points
+```{r, echo = FALSE}
+library(ggplot2)
+p <- ggplot(x, aes(x = age_permi/12, y = log_mont_recl)) + geom_point()
+p + labs(title = "Nuage de points de l'âge du permis en fonction des montants de réclamations", x = "Âge du permis de conduire du réclamant (en années)", y = "Montants de réclamations") + theme(plot.title = element_text(color = "dark blue", size = 11.5, hjust = 0.5, face = "bold"))
+```
+
+On remarque que le nuage de points est plus dense vers la gauche, traduisant le fait qu'un réclamant possédant un permis plus récent a plus de risque de subir un sinistre.
+
+
+##### Histogramme
+```{r, echo = FALSE}
+ggplot(x, aes(x = age_permi/12)) + 
+geom_histogram(col = "darkorchid1", #couleur du contour
+                 fill = "lightblue", # Couleur de l'intérieur
+                 alpha = 0.8, # Transparence de l'intérieur
+                 bins = 20) + # quantité de bandes
+  
+  ## Pour avoir un thème plutôt joli
+  theme(plot.title = element_text(size = 11, hjust = 0.5, color = "dark blue", face = "bold")) + 
+  
+  ## titres des axes
+  labs(x = "Âge du permis de conduire des réclamants (en années)",
+       y = "Fréquence",
+       title = "Histogramme de l'âge du permis de conduire des réclamants")
+```
+
+La plupart des sinistres sont subis entre 5 et 40 ans en âge du permis du réclamant, tout comme l'indiquait le tableau de fréquence.
+
+
+# Variable 2
+### Âge du véhicule du réclamant (en années)
+
+L'âge du véhicule du réclamant peut nous fournir plusieurs informations. Un véhicule plus vieux aura plus de chances de subir des bris nécessitant réclamation, par contre un véhicule plus récent pourrait occasionner des réclamations plus importantes, puisqu'en général, un véhicule plus récent possède une plus grande valeur.
+
+#### Statistiques
+```{r, echo = FALSE}
+an <- c(mean(x$age_veh), sd(x$age_veh), max(x$age_veh), min(x$age_veh), median(x$age_veh))
+data.frame(Statistiques = c("Moyenne", "Écart-type", "Maximum", "Minimum", "Médiane"), Année = an)
+```
+
+##### Tableau de fréquence
+```{r, echo = FALSE}
+d <- c(length(which(age_veh > 0 & age_veh <= 1)),
+       length(which(age_veh > 1 & age_veh <= 2)),
+       length(which(age_veh > 2 & age_veh <= 3)),
+       length(which(age_veh > 3 & age_veh <= 4)),
+       length(which(age_veh > 4 & age_veh <= 5)),
+       length(which(age_veh > 5 & age_veh <= 6)),
+       length(which(age_veh > 6 & age_veh <= 7)),
+       length(which(age_veh > 7 & age_veh <= 8)),
+       length(which(age_veh > 8 & age_veh <= 9)),
+       length(which(age_veh > 9 & age_veh <= 10)),
+       length(which(age_veh > 10 & age_veh <= 11)),
+       length(which(age_veh > 11 & age_veh <= 12)))
+
+e <- c("0 à 1", "1 à 2", "2 à 3", "3 à 4", "4 à 5", "5 à 6", "6 à 7", "7 à 8", "8 à 9", "9 à 10", "10 à 11", "11 à 12")
+
+data.frame(Âge = e, Nombre = d)
+
+```
+
+
+#### Graphiques
+##### Nuage de points
+```{r, echo = FALSE}
+library(ggplot2)
+p <- ggplot(x, aes(x = age_veh, y = log_mont_recl)) + geom_point()
+p + labs(title = "Nuage de l'âge du véhicule en fonction des montants de réclamations", x = "Âge du véhicule du réclamant (en années)", y = "Montants de réclamations") + theme(plot.title = element_text(color = "dark blue", size = 11, hjust = 0.5, face = "bold"))
+```
+
+On constate que les données sont beaucoup moins réparties que pour l'âge des conducteurs. En effet, on retrouve moins de catégories, les âges des véhicules se situant entre 0 et 14 ans. On n'observe pas de tendance particulière grâce à ce nuage de points.
+
+
+##### Histogramme
+```{r, echo = FALSE}
+ggplot(x, aes(x = age_veh)) + 
+geom_histogram(col = "darkorchid1", #couleur du contour
+                 fill = "lightblue", # Couleur de l'intérieur
+                 alpha = 0.8, # Transparence de l'intérieur
+                 bins = 20) + # quantité de bandes
+  
+  ## Pour avoir un thème plutôt joli
+  theme(plot.title = element_text(size = 11, hjust = 0.5, color = "dark blue", face = "bold")) + 
+  
+  ## titres des axes
+  labs(x = "Âge des véhicules des réclamants (en années)",
+       y = "Fréquence",
+       title = "Histogramme de l'âge des véhicules des réclamants")
+```
+
+##### Diagramme en boîte à moustache
+```{r, echo = FALSE}
+boxplot(log_mont_recl ~ x$age_veh, main = "Logarithme du montant des réclamations en fonction de l'âge du véhicule", cex.main = 1, col.main="darkblue",
+        xlab = "Âge du véhicule", ylab = "Logarithme du montant des réclamations")
+```
+
+# Variable 3 
+### Genre du réclamant
+```{r, echo = FALSE}
+table(genre)
+```
+
+On constate qu'il y a considérablement plus d'hommes que de femmes dans l'échantillon, et on peut donc se questionner à savoir si cette variable nous permettra d'avoir une analyse fiable des montants de réclamations en fonction du genre.
+
+#### Diagramme en boîte à moustache
+```{r, echo = FALSE}
+boxplot(log_mont_recl ~ genre, main = "Logarithme du montant des réclamations en fonction du genre", cex.main = 1, col.main = "darkblue", xlab = "Genre", ylab = "Logarithme du montant des réclamations")
+```
+
+
+# Variable 4
+### Statut matrimonial du réclamant
+
+```{r, echo = FALSE}
+table(stat_matri)
+```
+
+Cette variable manque de complétude, on rassemble les personnes mariées, divorcées, veuves, et peut-être même les unions de fait, car on ne sait pas si l'on considère la situation conjuguale au sens large ou strictement le status matrimonial légal. On ne peut pas vraiment tirer profit de cette variable, on constate qu'il y a un déséquilibre dans les données.
+
+#### Diagramme en boîte à moustache
+```{r, echo = FALSE}
+boxplot(log_mont_recl ~ stat_matri, main = "Logarithme du montant des réclamations en fonction du statut matrimonial", cex.main = 1, col.main="darkblue", xlab = "Statut matrimonial", ylab = "Logarithme du montant des réclamations")
+```
+
+# Variable 5
+### Catégorie socioculturelle
+
+```{r, echo = FALSE}
+table(categ_socio)
+```
+Les données sont réparties de façon inégale dans les différentes catégories socioculturelles, alors nous ne pouvons pas réellement en tirer profit.
+
+#### Diagramme en boîte à moustache
+```{r, echo = FALSE}
+boxplot(log_mont_recl ~ categ_socio, main = "Logarithme du montant des réclamations en fonction de la catégorie socioculturelle", cex.main = 1, col.main = "darkblue", xlab = "Statut matrimonial", ylab = "Logarithme du montant des réclamations")
+```
+
+
+# Variable 6
+### Usage du véhicule
+```{r, echo = FALSE}
+table(usage_veh)
+```
+
+Certaines catégories d'usage se chevauchent. Il est délicat de distinguer les usages strictement professionnel (professionnel, voyagement professionnel) des usages personnels (perso, perso et travail) et d'ensuite en tirer profit. Nous ne sommes pas réellement en mesure d'analyse ces catégories, par manque de complétude.
+
+#### Diagramme en boîte à moustache
+```{r, echo = FALSE}
+boxplot(log_mont_recl ~ usage_veh, main = "Logarithme du montant des réclamations en fonction de l'usage du véhicule", cex.main = 1, col.main = "darkblue", xlab = "Usage du véhicule", ylab = "Logarithme du montant des réclamations")
+```
+
+# Variable 7
+### Âge du conducteur (en années)
+#### Statistiques
+```{r, echo = FALSE}
+an <- c(mean(age_conduct), sd(age_conduct), max(age_conduct), min(age_conduct), median(age_conduct))
+data.frame(Statistiques = c("Moyenne", "Écart-type", "Maximum", "Minimum", "Médiane"), Année = an)
+```
+
+#### Graphiques
+##### Nuage de points
+```{r, echo = FALSE}
+library(ggplot2)
+p <- ggplot(x, aes(x = age_conduct, y = log_mont_recl)) + geom_point()
+p + labs(title = "Nuage de l'âge du conducteur en fonction des montants de réclamations", x = "Âge du réclamant (en années)", y = "Montants de réclamations") + theme(plot.title = element_text(color = "dark blue", size = 8.5, hjust = 0.5, face = "bold"))
+```
+
+##### Histogramme
+```{r, echo = FALSE}
+ggplot(x, aes(x = age_conduct)) + 
+geom_histogram(col = "darkorchid1", #couleur du contour
+                 fill = "lightblue", # Couleur de l'intérieur
+                 alpha = 0.8, # Transparence de l'intérieur
+                 bins = 20) + # quantité de bandes
+  
+  ## Pour avoir un thème plutôt joli
+  theme(plot.title = element_text(size = 11, hjust = 0.5, color = "dark blue", face = "bold")) + 
+  
+  ## titres des axes
+  labs(x = "Âge des des réclamants (en années)",
+       y = "Fréquence",
+       title = "Histogramme de l'âge des réclamants")
+```
+
+##### Tableau de fréquence
+```{r, echo = FALSE}
+f <- c(length(which(age_conduct >= 18 & age_conduct <= 25)),
+       length(which(age_conduct > 25 & age_conduct <= 35)),
+       length(which(age_conduct > 35 & age_conduct <= 45)),
+       length(which(age_conduct > 45 & age_conduct <= 55)),
+       length(which(age_conduct > 55 & age_conduct <= 65)),
+       length(which(age_conduct > 65 & age_conduct <= 75)),
+       length(which(age_conduct > 75 & age_conduct <= 85)),
+       length(which(age_conduct > 85 & age_conduct <= 95)))
+
+g <- c("18 à 25", "25 à 35", "35 à 45", "45 à 55", "55 à 65", "65 à 75", "75 à 85", "85 à 95")
+
+data.frame(Âge = g, Nombre = f)
+
+```
+
+On remarque grâce à l'histogramme et au tableau de fréquence que les réclamations proviennent majoritairement des catégories d'âge entre 25 et 65 ans.
