@@ -43,13 +43,34 @@ ggplot(MontantReclFr, aes(x = age_conduct, y = log_mont_recl)) + geom_point() + 
 ```
 
 ### Statistiques
+Certaines lignes contiennent des NA. Retirons-les.
 ```{r}
-#Moyenne
+age_conduct <- na.omit(age_conduct)
+```
+
+Moyenne
+```{r, echo = FALSE}
 mean(age_conduct)
-#Médiane
-#Écart-Type
-#Minimum
-#Maximum
+```
+
+Médiane
+```{r, echo = FALSE}
+median(age_conduct)
+```
+
+Écart-type
+```{r, echo = FALSE}
+sd(age_conduct)
+```
+
+Minimum
+```{r, echo = FALSE}
+min(age_conduct)
+```
+
+Maximum
+```{r, echo = FALSE}
+max(age_conduct)
 ```
 
 ### Variable 8 : Type du véhicule
