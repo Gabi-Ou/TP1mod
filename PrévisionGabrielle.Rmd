@@ -43,20 +43,22 @@ summary(x)
 pairs(mont_recl~age_permi + age_veh + genre + categ_socio + usage_veh + age_conduct + type_veh + bonus_malus + garage + source_energ + I(log(valeur_veh)))
 ```
 
+On observe déjà que certaines variables sont redondantes, par exemple age_permi et age_conduct, on ne pourra donc pas garder les deux (multicolinéarité).
+
 ##### Ajuster un modèle de régression linéaire multiple pour la variable mont_recl en fonction de toutes les variables explicatives
 ```{r}
 mod.complet <- lm(mont_recl~age_permi + age_veh + genre + categ_socio + usage_veh + age_conduct + type_veh + bonus_malus + garage + source_energ + I(log(valeur_veh)))
 summary(mod.complet)
 ```
 
-##### On peut extraire bêta 1 et bêta 2 (associés à age_permi et à age_veh) ainsi:
-Cela signifie que lorsqu’un permis a une année de plus, sans changement aux autres variables explicatives, la moyenne de ses réclamations mont_recl diminue de 3.87 dollars, et lorsqu'un véhicule a une année de plus, on augmente son montant de réclamation de 39.33 dollars. On peut faire ceci avec toutes les autres variables.
+##### On peut extraire bêta 1 et bêta 2, par exemple (associés à age_permi et à age_veh) ainsi:
+Cela signifie que lorsqu’un permis a une année de plus, sans changement aux autres variables explicatives, la moyenne de ses réclamations mont_recl diminue de 3.87 dollars, et lorsqu'un véhicule a une année de plus, on augmente son montant de réclamation de 39.33 dollars. On peut faire ceci avec toutes les autres variables, mais nous nous limitons ici à deux exemples.
 ```{r}
 (coef_age_permi <- mod.complet$coefficients[1 + 1])
 (coef_age_veh <- mod.complet$coefficients[2 + 1])
 ```
 
-##### Intervalle de confiance à 95% pour bêta 2 (age_veh):
+##### Intervalle de confiance à 95% pour bêta 1 (age_permi) et bêta 2 (age_veh):
 ```{r}
 confint(mod.complet, 
         parm = 1 + 1,
@@ -124,3 +126,52 @@ Prévision (intervalle de confiance plus grand car variance individuelle plus gr
 
 
 ##### Tests de réduction du modèle
+Hypothèses : <br/>
+$H_0$ :  modèle réduit sans age_permi
+$H_1$ : modèle complet
+
+```{r}
+mod0 <- lm(mont_recl~age_veh + genre + categ_socio + usage_veh + age_conduct + type_veh + bonus_malus + garage + source_energ + I(log(valeur_veh)))
+```
+
+On compare les deux modèles grâce à anova.
+```{r}
+anova(mod0, mod.complet)
+```
+La statistique F est 0,5906 et le seuil observé est 44,24%.
+Au niveau de confiance 99%, nous n’avons pas assez de preuves statistiques pour rejeter l’hypothèse nulle, le modèle réduit est une bonne simplification du modèle complet.
+
+On peut aussi simplement utiliser drop1 pour faire des tests F partiels suite au retrait de chacune des variables.
+
+```{r}
+drop1(mod.complet, test = "F")
+```
+On constate que le seuil observé P(>F) de garage est très élevé, nous n’avons donc pas assez de preuve statistique pour croire que cette variable est significative dans le modèle.
+
+Ainsi, on peut créer un nouveau modèle sans cette variable:
+```{r}
+mod2 <- update(mod.complet, ~. - garage)
+```
+
+Ensuite, on peut refaire la procédure jusqu’à ce que nous ayons des preuves statistiques que toutes nos variables sont significatives selon le test F partiel
+```{r}
+drop1(mod2, test = "F")
+```
+
+On peut donc retirer categ_socio:
+```{r}
+mod3 <- update(mod2, ~. - categ_socio)
+drop1(mod3, test = "F")
+```
+
+```{r}
+mod4 <- update(mod3, ~. - age_veh)
+drop1(mod4, test = "F")
+```
+
+Maintenant, usage_veh
+```{r}
+mod5 <- update(mod4, ~. - usage_veh)
+drop1(mod5, test = "F")
+anova(mod5)
+```

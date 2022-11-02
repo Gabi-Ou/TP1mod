@@ -76,6 +76,7 @@ geom_histogram(col = "darkorchid1", #couleur du contour
 
 La plupart des sinistres sont subis entre 5 et 40 ans en âge du permis du réclamant, tout comme l'indiquait le tableau de fréquence.
 
+
 # Variable 2
 ### Âge du véhicule du réclamant (en années)
 
@@ -148,14 +149,23 @@ geom_histogram(col = "darkorchid1", #couleur du contour
 
 # Variable 3 
 ### Genre du réclamant
-### Corrections
+### Corrections (Annexe A)
+Correction des anomalies dans les données, où l'on retrouve deux orthographes de la variable femme, que nous avons transformée en une seule.
+```{r}
 table(genre)
 genre_2 <- sub("femme", "Femme", genre)
 genre <- genre_2
 table(genre)
+```
 
 #### Analyse qualitative (expliquer pourquoi il s'agit d'une variable intéressante une fois transformée et le démontrer)
+##### Statistiques
+```{r}
+an <- c(max(genre), min(genre))
+data.frame(Statistiques = c("Maximum", "Minimum"), Année = an)
+```
 
+On constate ici que plus de réclamations 
 
 # Variable 4
 ### Statut matrimonial du réclamant
