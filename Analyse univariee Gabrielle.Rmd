@@ -154,18 +154,21 @@ Correction des anomalies dans les données, où l'on retrouve deux orthographes 
 ```{r}
 table(genre)
 genre_2 <- sub("femme", "Femme", genre)
-genre <- genre_2
-table(genre)
 ```
 
-#### Analyse qualitative (expliquer pourquoi il s'agit d'une variable intéressante une fois transformée et le démontrer)
 ##### Statistiques
 ```{r}
 an <- c(max(genre), min(genre))
 data.frame(Statistiques = c("Maximum", "Minimum"), Année = an)
+table(genre)
 ```
 
-On constate ici que plus de réclamations 
+On constate ici que notre jeu de données contient plus de réclamations faites par des hommes que par des femmes. Plus exactement, 2455 femmes et 4159 hommes font partie de l'échantillon.
+
+##### Graphiques
+```{r}
+
+```
 
 # Variable 4
 ### Statut matrimonial du réclamant
