@@ -171,6 +171,7 @@ mod1 <- update(mod0, ~. - age_veh)
 ```{r}
 anova(mod1, mod0)
 ```
+
 La statistique F est 0.0921 et le seuil observé est 76.16%.
 Au niveau de confiance 99%, nous n’avons pas assez de preuves statistiques pour rejeter l’hypothèse nulle, le modèle réduit est une bonne simplification du modèle complet.
 
