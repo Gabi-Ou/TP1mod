@@ -1,0 +1,101 @@
+"index","age_permi","age_veh","genre","stat_matri","categ_socio","usage_veh","age_conduct","type_veh","bonus_malus","mont_recl","garage","source_energ","valeur_veh"
+25643,120,5,"Femme","Autre","CSP73","perso + travail",31,"vehicule utilitaire sport",60,511.277039274924,"aucun","regular",36793.1402551209
+32784,253,4,"Homme","Autre","CSP50","perso + travail",39,"sedan",76,644.11,"aucun","regular",29005.4656801166
+28420,309,7,"Femme","Autre","CSP50","professionnel",49,"minivan",80,1204,"aucun","diesel",37514.1312687836
+48135,36,1,"Homme","Seul","CSP50","perso + travail",21,"sedan",85,2300,"aucun","diesel",24829.6570251433
+59097,251,6,"Femme","Autre","CSP50","perso",42,"sedan",80,1319.63746223565,"aucun","regular",17089.1747161844
+58725,72,4,"Homme","Autre","CSP50","professionnel",44,"van",90,720.12,"aucun","diesel",22051.7693082779
+37057,66,5,"Homme","Seul","CSP60","professionnel",27,"vehicule utilitaire sport",85,157.41,"garage communautaire","regular",43326.0244134491
+65179,281,6,"Homme","Autre","CSP55","voyagement professionel",41,"autre minivan",54,168.395166163142,"garage communautaire","regular",29837.3428554777
+91193,433,9,"Femme","Autre","CSP50","perso",72,"sedan",50,4032.19939577039,"garage communautaire","regular",20780.5112110156
+52041,394,8,"Femme","Autre","CSP50","perso + travail",52,"sedan",58,1326,"aucun","regular",26673.9459607374
+11833,163,5,"Femme","Seul","CSP50","perso",31,"sedan",90,1204,"aucun","regular",32880.1657017825
+11827,215,2,"Homme","Autre","CSP50","professionnel",36,"sedan",50,919.59,"aucun","regular",37941.7978658587
+28993,374,6,"Femme","Autre","CSP46","perso",56,"sedan",50,276.958912386707,"aucun","regular",9970.47912716737
+66528,113,7,"Femme","Seul","CSP1","perso + travail",28,"sedan",76,229.039577039275,"garage prive","regular",6786.34545904773
+7938,264,7,"Homme","Seul","CSP50","perso + travail",40,"minivan",50,1419.78851963746,"garage prive","regular",35524.3802053506
+28976,176,6,"Femme","Autre","CSP50","perso",41,"sedan",85,1114.86,"aucun","regular",13581.8162140938
+119084,129,6,"Homme","Autre","CSP50","perso + travail",29,"sedan",72,309.749546827795,"aucun","diesel",17400.0480524982
+94409,268,5,"Homme","Autre","CSP55","professionnel",40,"van",50,742.44,"aucun","diesel",32784.1691132481
+86058,275,4,"Femme","Autre","CSP50","perso + travail",50,"sedan",72,1418.61027190332,"aucun","regular",13715.6291351803
+29590,60,10,"Homme","Seul","CSP50","perso",29,"van",90,1326,"aucun","diesel",34867.965115391
+12271,261,10,"Homme","Seul","CSP50","perso",59,"sedan",81,116.05,"aucun","regular",28864.171287691
+97975,285,6,"Femme","Autre","CSP6","professionnel",58,"sedan",50,4124.22,"garage communautaire","regular",11872.0749343082
+70865,339,4,"Homme","Seul","CSP50","professionnel",51,"van",50,288.152265861027,"garage prive","diesel",26414.568831236
+105826,18,10,"Femme","Autre","CSP50","perso",40,"sedan",100,1418.61027190332,"aucun","regular",19866.7615041069
+46902,133,2,"Homme","Autre","CSP48","professionnel",43,"van",139,2872.56797583082,"aucun","diesel",22139.6414458732
+10721,254,5,"Femme","Autre","CSP42","perso",39,"minivan",59,663,"garage prive","regular",46504.8349133327
+24264,269,2,"Homme","Autre","CSP50","perso + travail",40,"sedan",53,11443.69,"garage communautaire","diesel",28324.0019784727
+114624,239,4,"Homme","Autre","CSP48","professionnel",38,"van",50,1326,"garage prive","diesel",35279.8724905569
+11845,222,4,"Homme","Autre","CSP66","professionnel",37,"vehicule utilitaire sport",106,269.38,"aucun","diesel",38064.3312597545
+34129,109,9,"Homme","Seul","CSP50","perso + travail",30,"sedan",76,12.21,"garage prive","regular",13710.3601372311
+97949,145,2,"Femme","Seul","CSP50","perso + travail",30,"sedan",106,1616.55589123867,"aucun","regular",24577.6055206703
+63048,766,6,"Homme","Autre","CSP50","perso",82,"sedan",50,579.839274924471,"aucun","regular",27458.4359027027
+99882,35,6,"Femme","Seul","CSP50","perso + travail",31,"sedan",95,213.722356495468,"aucun","regular",20330.8714353188
+80166,183,4,"Homme","Seul","CSP26","professionnel",33,"sedan",90,1293.52,"aucun","diesel",21843.6728026249
+65142,386,10,"Homme","Autre","CSP46","perso",57,"sedan",95,1326,"aucun","diesel",18309.7434043509
+41348,294,1,"Femme","Autre","CSP50","professionnel",42,"sedan",50,3172.32,"aucun","regular",27660.2182962215
+90181,296,4,"Femme","Autre","CSP50","voyagement professionel",44,"sedan",50,717.37,"aucun","regular",27177.1506629231
+14570,126,9,"Femme","Seul","CSP55","perso + travail",33,"vehicule utilitaire sport",80,1418.61027190332,"aucun","regular",41516.4033513126
+66037,569,7,"Homme","Autre","CSP50","perso",67,"coupe",50,7260.44501510574,"garage communautaire","regular",35929.5555766821
+28326,629,4,"Homme","Autre","CSP55","perso",74,"sedan",50,6052.34,"garage prive","regular",41467.5805593289
+117057,225,7,"Homme","Seul","CSP50","perso + travail",39,"sedan",64,4326.52567975831,"aucun","regular",7210.83278273411
+120711,154,6,"Femme","Autre","CSP50","perso",47,"sedan",53,1093.41389728097,"aucun","regular",13657.7243685055
+67743,238,4,"Femme","Seul","CSP50","perso + travail",39,"sedan",85,2276.63383685801,"aucun","regular",10624.3168716058
+21854,114,2,"Femme","Autre","CSP55","perso + travail",27,"sedan",62,1397.63,"aucun","diesel",25498.824762287
+21918,123,7,"Femme","Seul","CSP50","perso + travail",38,"sedan",100,1666.79,"aucun","diesel",19161.3101005603
+88179,190,7,"Homme","Autre","CSP50","perso + travail",38,"autre minivan",95,1704,"aucun","diesel",30244.2721871114
+18209,73,4,"Femme","Autre","CSP60","perso + travail",24,"sedan",76,6079.7,"garage prive","diesel",16480.2043639936
+18201,440,6,"Homme","Autre","CSP60","professionnel",55,"sedan",58,928,"aucun","regular",2837.3216871468
+18808,142,7,"Homme","Seul","CSP60","professionnel",30,"sedan",72,985.121148036254,"aucun","regular",23194.2464572801
+94409,268,5,"Homme","Autre","CSP55","professionnel",40,"van",50,742.44,"aucun","diesel",32784.1691132481
+46623,148,4,"Homme","Seul","CSP50","perso",30,"cabriolet",56,380.715407854985,"garage communautaire","regular",40309.938825744
+40208,26,1,"Homme","Seul","CSP49","perso + travail",21,"sedan",90,964.65,"garage communautaire","diesel",37578.6540966325
+112681,239,5,"Femme","Seul","CSP22","professionnel",38,"sedan",68,97.3232628398791,"aucun","diesel",27202.9724273027
+116196,410,6,"Femme","Autre","CSP50","perso + travail",54,"vehicule utilitaire sport",62,519.878247734139,"aucun","diesel",37454.1677934647
+17790,374,7,"Femme","Autre","CSP1","perso",51,"sedan",78,1418.61027190332,"aucun","diesel",16602.765791795
+11904,580,8,"Homme","Autre","CSP50","perso",69,"sedan",53,907.1,"aucun","regular",13962.9198757484
+22419,284,1,"Femme","Autre","CSP50","perso",49,"minivan",85,2448.38700906344,"aucun","regular",23776.028722434
+12606,101,2,"Femme","Seul","CSP42","perso + travail",32,"sedan",95,100.63413897281,"aucun","regular",16177.1245647895
+92927,137,4,"Homme","Seul","CSP60","perso + travail",29,"sedan",72,90,"garage communautaire","regular",29511.5348213449
+101669,233,7,"Homme","Autre","CSP48","perso + travail",37,"coupe",86,11024.9936555891,"garage prive","regular",43815.3874502017
+16876,123,7,"Homme","Seul","CSP48","perso + travail",29,"sedan",95,1862.85,"aucun","regular",14188.3230139751
+80011,259,11,"Homme","Autre","CSP26","professionnel",39,"sedan",58,67.5,"aucun","regular",10784.706284725
+7034,334,1,"Homme","Autre","CSP50","perso",51,"sedan",50,2578.45,"aucun","regular",30124.4470901105
+8977,377,4,"Femme","Autre","CSP50","perso",49,"cabriolet",118,2300,"garage communautaire","regular",49215.174222125
+82162,92,1,"Femme","Autre","CSP50","perso + travail",27,"sedan",100,4326.52567975831,"aucun","regular",10775.9459810241
+13367,325,4,"Homme","Seul","CSP26","perso + travail",50,"sedan",50,4378.08580060423,"aucun","regular",20251.1316319238
+92654,520,1,"Homme","Autre","CSP50","perso",61,"sedan",50,659.382779456193,"garage communautaire","regular",18650.0053488689
+83357,113,4,"Femme","Autre","CSP50","perso + travail",27,"sedan",57,1326,"aucun","diesel",29579.7037969921
+81419,464,1,"Homme","Autre","CSP50","perso",60,"sedan",90,4326.52567975831,"garage communautaire","diesel",29730.5458030622
+48892,256,1,"Homme","Seul","CSP66","perso + travail",39,"sedan",51,1294.01057401813,"aucun","regular",26738.2743126575
+18405,598,6,"Homme","Autre","CSP50","perso",68,"sedan",50,473.396374622356,"aucun","regular",16539.5203002691
+23379,372,5,"Femme","Autre","CSP60","perso + travail",49,"cabriolet",51,477.225679758308,"garage prive","regular",40311.4996157611
+8494,295,7,"Homme","Autre","CSP50","professionnel",42,"vehicule utilitaire sport",80,102.59003021148,"garage communautaire","regular",48885.282809943
+105297,320,2,"Homme","Autre","CSP19","professionnel",45,"sedan",148,6003.85558912387,"garage communautaire","regular",45990.5645648739
+6701,137,2,"Homme","Autre","CSP50","perso",29,"sedan",72,2813.84410876133,"aucun","regular",26607.2704200053
+106008,257,1,"Homme","Seul","CSP50","perso + travail",40,"sedan",100,4562.1752265861,"garage communautaire","regular",16687.4028235849
+121887,473,1,"Homme","Autre","CSP50","perso + travail",60,"sedan",50,208.89,"aucun","diesel",24835.5223173462
+21502,212,1,"Homme","Autre","CSP50","professionnel",36,"sedan",90,1418.61027190332,"garage prive","diesel",43144.9870050614
+92310,702,1,"Homme","Autre","CSP50","perso",79,"sedan",133,2504,"garage prive","regular",24640.6375968023
+67839,243,5,"Homme","Autre","CSP50","perso + travail",38,"minivan",50,2346,"garage prive","regular",37723.9035404644
+107602,240,5,"Homme","Seul","CSP50","professionnel",38,"vehicule utilitaire sport",54,289.978549848943,"garage prive","regular",40606.6092832009
+7907,180,4,"Femme","Seul","CSP50","perso + travail",33,"sedan",56,2346,"aucun","regular",10232.0190502115
+2071,175,10,"Homme","Seul","CSP50","perso + travail",33,"sedan",100,1300,"aucun","regular",39646.8778311576
+14050,292,4,"Homme","Seul","CSP50","professionnel",43,"vehicule utilitaire sport",85,1418.61027190332,"garage communautaire","regular",56502.7796759128
+66890,279,5,"Homme","Autre","CSP42","professionnel",42,"minivan",64,8639.89033232628,"aucun","regular",27864.5341949723
+9136,425,1,"Homme","Autre","CSP59","perso",65,"sedan",50,1751.52416918429,"garage communautaire","regular",35484.7596537476
+67882,275,4,"Homme","Autre","CSP55","perso + travail",45,"sedan",50,588.452265861027,"aucun","regular",20723.5405343558
+64221,435,7,"Femme","Autre","CSP50","professionnel",54,"sedan",51,611.51,"aucun","regular",11646.2768496038
+10309,583,9,"Homme","Autre","CSP50","perso",76,"sedan",55,590.467069486405,"aucun","regular",25185.6110169009
+71449,299,4,"Femme","Autre","CSP50","perso + travail",43,"sedan",50,749.73,"garage communautaire","regular",10876.6916550401
+103090,616,5,"Homme","Autre","CSP50","perso",69,"coupe",50,22247.0256797583,"aucun","regular",29273.5443502623
+6323,499,7,"Homme","Autre","CSP50","perso",63,"sedan",90,2543.15,"garage communautaire","regular",13061.5798725139
+107301,230,5,"Femme","Autre","CSP50","perso + travail",38,"autre minivan",147,1204,"aucun","regular",27474.6150279742
+51625,166,2,"Homme","Autre","CSP50","professionnel",32,"sedan",72,93.9063444108761,"aucun","diesel",27851.4823261814
+13488,166,4,"Femme","Autre","CSP60","perso + travail",32,"sedan",90,778.89,"garage prive","regular",24031.2472951915
+46635,285,4,"Femme","Autre","CSP60","professionnel",50,"sedan",62,142.567975830816,"aucun","regular",15875.867716972
+941,250,4,"Homme","Autre","CSP55","perso",41,"van",100,5330.88761329305,"aucun","diesel",14442.9492730438
+123626,249,1,"Homme","Autre","CSP50","professionnel",43,"vehicule utilitaire sport",80,2709.96978851964,"garage communautaire","diesel",42817.7520944235
+76443,271,5,"Femme","Seul","CSP22","perso",45,"station wagon",50,68.5,"aucun","regular",13664.1118477184
+945,388,2,"Femme","Seul","CSP50","perso + travail",54,"sedan",54,2680.97,"garage prive","regular",23392.209436981
